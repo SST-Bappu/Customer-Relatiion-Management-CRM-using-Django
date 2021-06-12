@@ -1,0 +1,78 @@
+{%extends 'accounts/main.html'%}
+{%block title%}Home{%endblock%}
+
+{%block content%}
+{%include 'accounts/status.html'%}
+<br>
+
+
+<script >
+     function myFunction(){
+         return confirm("Are you sure")
+     }
+</script>
+<div class="row">
+    <div class="col-md">
+        <div class="card text-white text-center bg-secondary mb-3">
+            <form method="GET">
+                {{filter.form}}
+                <button class="btn btn-secondary" type="submit">Search</button>
+            </form>
+            
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <h5>CUSTOMER:</h5>
+        <br>
+        <a class="btn btn-info btn-sm btn-block" href="{% url 'registration'%}">Create Customer</a>
+        <div class="card">
+            
+            <table class="table table-hover table-striped table-dark">
+                <tr>
+                    <th>Profile</th>
+                    <th>Customer</th>
+                    <th>Orders</th>
+                </tr>
+                {%for customer in customers%}
+                <tr>
+                    <td><a class="btn btn-sm btn-success" href="{%url 'customer' customer.id%}">View</a></td>
+                    <td>{{customer.name}}</td>
+                    <td>{{customer.date}}</td>
+                </tr>
+                {%endfor%}
+            </table>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <h5>Orders:</h5>
+        <br>
+        <div class="card">
+            <table class="table table-hover table-striped table-dark">
+                <tr>
+                    <th>Product</th>
+                    <th>Date Ordered</th>
+                    <th>Status</th>
+                    <th>Update</th>
+                    <th>Remove</th>
+                </tr>
+                {% for order in orders%}
+                <tr>
+                    <td>{{order.product.name}}</td>
+                    <td>{{order.date}}</td>
+                    <td>{{order.status}}</td>
+                    <td><a class="btn btn-sm btn-info" href="{%url 'updateOrder' order.id%}">Update</a></td>
+                    <form action="{%url 'deleteOrder' order.id%}" method="POST"  onsubmit="return confirm('Are you sure you want to remove {{order.product.name}}?')">
+                        {% csrf_token %}
+                    <td><input type="submit" class="btn btn-sm btn-danger" value="Remove"/></td>
+                    </form>
+                </tr>
+                {%endfor%}
+            </table>
+        </div>
+    </div>
+</div>
+
+{%endblock%}
+    

@@ -1,0 +1,40 @@
+{%extends 'accounts/main.html'%}
+{%block title%}user{%endblock%}
+{%block content%}
+{%include 'accounts/status.html'%}
+<div class="row">
+    <div class="col-md">
+        <div class="card text-white text-center bg-secondary">
+            <form method="GET">
+                {%csrf_token%}
+                {{filter.form}}
+                <button class="btn btn-primary" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md">
+        <h5>Orders</h5>
+        <br>
+        <div class="card">
+            <table class="table table-hover table-striped table-dark">
+                <tr>
+                    <th>Product</th>
+                    <th>Date Ordered</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                </tr>
+                {% for order in orders%}
+                <tr>
+                    <td>{{order.product.name}}</td>
+                    <td>{{order.date}}</td>
+                    <td>{{order.quantity}}</td>
+                    <td>{{order.status}}</td>
+                </tr>
+                {%endfor%}
+            </table>
+        </div>
+    </div>
+</div>
+{%endblock%}
